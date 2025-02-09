@@ -107,6 +107,7 @@
                             </a>
 
                             <a href="{{ route('rumah') }}" style="color: #fff; text-decoration: underline;">Kembali Kerumah</a>
+                            <a href="{{ route('pendaftaran') }}" style="color: #fff; text-decoration: underline;">Pendaftaran</a>
 
                             <a
                                 href="https://laracasts.com"
