@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagementUser;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,4 +44,10 @@ Route::post('/api/user/create', function (Request $request) {
         'email' => $request->input('email'),
         'password' => $request->input('password'),
     ]);
+});
+
+Route::resource("/orang", ManagementUser::class);
+
+Route::get("/rumah", function(){
+    return view("home", );
 });
