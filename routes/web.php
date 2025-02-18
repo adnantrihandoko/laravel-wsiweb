@@ -9,6 +9,8 @@ Route::get('/omah', function(){
     return "Ini halaman home";
 })->name('rumah');
 
+Route::view('/dashboard', 'dashboard');
+
 Route::get('/user/{id}', [UserController::class, 'showID']);
 
 Route::get('/user/{id?}', [UserController::class, 'showID']);
@@ -46,8 +48,4 @@ Route::post('/api/user/create', function (Request $request) {
     ]);
 });
 
-Route::resource("/orang", ManagementUser::class);
-
-Route::get("/rumah", function(){
-    return view("home", );
-});
+Route::resource("/rumah", ManagementUser::class);
