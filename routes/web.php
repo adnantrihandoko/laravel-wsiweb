@@ -2,9 +2,14 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\PendidikanController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MediaController;
-use App\Http\Controllers\PengalamanKerjaController;
+use App\Http\Controllers\Backend\PengalamanKerjaController;
+use App\Http\Controllers\CobaController;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\UploadFilesController;
 use App\Http\Middleware\CheckAge;
 use App\Http\Middleware\CheckEmailVerified;
 use Illuminate\Support\Facades\Route;
@@ -35,3 +40,21 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('pendidikan', PendidikanController::class);
     Route::resource('pengalaman_kerja', PengalamanKerjaController::class);
 });
+
+Route::get('session/create', [SessionController::class, 'create']);
+Route::get('session/show', [SessionController::class, 'show']);
+Route::get('session/delete', [SessionController::class, 'delete']);
+Route::get('pegawai/{nama}', [PegawaiController::class, 'index']);
+Route::get('formulir', [PegawaiController::class, 'formulir']);
+Route::post('formulir/proses', [PegawaiController::class, 'proses']);
+
+Route::get('validasi/formulir', [PegawaiController::class, 'indexValidasi']);
+Route::post('validasi/proses', [PegawaiController::class, 'prosesValidasi']);
+
+Route::get('cobaerror/{nama?}', [CobaController::class, 'index']);
+
+Route::get('upload', [UploadFilesController::class, 'index']);
+Route::post('upload/proses', [UploadFilesController::class, 'proses'])->name('upload.proses');
+
+Route::get('upload/resize', [UploadFilesController::class, 'indexResize']);
+Route::post('upload/resize/proses', [UploadFilesController::class, 'resize_upload'])->name('upload.resize');
