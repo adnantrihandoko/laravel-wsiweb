@@ -3,12 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\ManagementUser;
 use App\Http\Controllers\MediaController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Middleware\CheckAge;
-use Illuminate\Http\Request;
+use App\Http\Middleware\CheckEmailVerified;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function(){
@@ -16,16 +14,24 @@ Route::get('/', function(){
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [EmployeeController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/employee', [EmployeeController::class, 'index'])->name('dashboard');
     Route::resource('employees', EmployeeController::class);
 });
 Route::post('/employees/{employee}/media', [MediaController::class, 'store'])->name('media.store');
 Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 
-Route::group([], function(){
-    Route::resource('home', HomeController::class);
+Route::group(['namespace'=>'App\Http\Controllers\Frontend'], function(){
+    Route::resource('home', 'HomeController')->name('get', 'home');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Backend'], function(){
-    Route::resource('dashboard', 'DashboardController');
+Route::get('/middleware/checkage/{age}')->middleware(CheckAge::class);
+
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('pendidikan', PendidikanController::class);
+    Route::resource('pengalaman_kerja', PengalamanKerjaController::class);
 });
